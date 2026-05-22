@@ -21,8 +21,8 @@
   <meta property="og:site_name" content="bgbgone">
   <meta property="og:locale" content="en_US">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23E91E63'/><rect x='28' y='28' width='44' height='44' fill='%23FFC107'/></svg>">
-  <link rel="stylesheet" href="style.css?v=0.2.0">
-  <script src="vendor/img-comparison-slider.min.js?v=0.2.0" defer></script>
+  <link rel="stylesheet" href="style.css?v=0.2.2">
+  <script src="vendor/img-comparison-slider.min.js?v=0.2.2" defer></script>
 </head>
 <body>
 
@@ -55,9 +55,21 @@
       <div class="hero-stripe stripe-4"></div>
     </div>
     <div class="container hero-grid">
+      <figure class="hero-slider">
+        <img-comparison-slider class="hero-comp" value="50" hover="false">
+          <img slot="first"  src="assets/pairs/1984-mccandless-eva.src.jpg" alt="Bruce McCandless on EVA, 1984 — original NASA photo with deep space background" loading="eager" decoding="async">
+          <img slot="second" src="assets/pairs/1984-mccandless-eva.cut.png" alt="Same astronaut, background removed by bgbgone" loading="eager" decoding="async">
+        </img-comparison-slider>
+        <figcaption class="hero-slider-cap">
+          <span class="cap-row"><span class="cap-dot cap-dot-pink"></span> source · NASA STS-41-B · 1984</span>
+          <span class="cap-row"><span class="cap-dot cap-dot-yellow"></span> bgbgone in.jpg → cutout.png · 81 ms</span>
+          <span class="cap-hint">↔ drag</span>
+        </figcaption>
+      </figure>
+
       <div class="hero-text">
         <div class="hero-meta">
-          <span class="meta-tag">v0.1.35</span>
+          <span class="meta-tag">v0.1.37</span>
           <span class="meta-tag">macOS 26+</span>
           <span class="meta-tag">Swift 6.3+</span>
           <span class="meta-tag">MIT</span>
@@ -86,18 +98,6 @@
           No Xcode. Zero dependencies.
         </p>
       </div>
-
-      <figure class="hero-slider">
-        <img-comparison-slider class="hero-comp" value="50" hover="false">
-          <img slot="first"  src="assets/pairs/1984-mccandless-eva.src.jpg" alt="Bruce McCandless on EVA, 1984 — original NASA photo with deep space background" loading="eager" decoding="async">
-          <img slot="second" src="assets/pairs/1984-mccandless-eva.cut.png" alt="Same astronaut, background removed by bgbgone" loading="eager" decoding="async">
-        </img-comparison-slider>
-        <figcaption class="hero-slider-cap">
-          <span class="cap-row"><span class="cap-dot cap-dot-pink"></span> source · NASA STS-41-B · 1984</span>
-          <span class="cap-row"><span class="cap-dot cap-dot-yellow"></span> bgbgone in.jpg → cutout.png · 81 ms</span>
-          <span class="cap-hint">↔ drag</span>
-        </figcaption>
-      </figure>
     </div>
   </header>
 
@@ -788,6 +788,6 @@ HTTP server ───────────────→ same pipeline, mult
     </div>
   </footer>
 
-  <script src="app.js?v=0.2.0" defer></script>
+  <script src="app.js?v=0.2.2" defer></script>
 </body>
 </html>

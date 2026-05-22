@@ -261,8 +261,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
    ========================================================================== */
 .hero {
   position: relative;
-  min-height: 100vh;
-  padding: 140px 0 96px;
+  padding: 120px 0 96px;
   background: var(--paper);
   overflow: hidden;
 }
@@ -306,17 +305,22 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 48px;
-  align-items: center;
+  align-items: stretch;
+  justify-items: center;
 }
-@media (min-width: 980px) {
-  .hero-grid { grid-template-columns: 1.1fr 1fr; gap: 56px; }
+.hero-text {
+  min-width: 0;
+  width: 100%;
+  max-width: 880px;
+  text-align: center;
 }
-.hero-text { min-width: 0; }
+.hero-slider { width: 100%; max-width: 560px; margin: 0 auto; }
 .hero-meta {
   display: flex; flex-wrap: wrap; gap: 8px;
   margin-bottom: 36px;
+  justify-content: center;
 }
 .meta-tag {
   font-family: var(--font-mono);
@@ -350,14 +354,16 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
 .hero-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(64px, 12vw, 168px);
+  font-size: clamp(44px, 8vw, 104px);
   line-height: 0.92;
   letter-spacing: -0.04em;
   color: var(--ink);
-  margin-bottom: 32px;
+  margin: 0 auto 32px;
+  max-width: 720px;
+  word-break: keep-all;
 }
 .title-line { display: block; }
-.title-line + .title-line { margin-left: clamp(14px, 4vw, 56px); }
+.title-line + .title-line { margin-left: 0; }
 .title-strike {
   position: relative;
   display: inline-block;
@@ -389,10 +395,11 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
   background: var(--ink);
   border-radius: var(--r-md);
   padding: 14px 16px;
-  max-width: 640px;
-  margin-bottom: 18px;
+  max-width: 620px;
+  margin: 0 auto 18px;
   box-shadow: var(--shadow-lg);
   overflow: hidden;
+  text-align: left;
 }
 .hero-install code {
   flex: 1;
@@ -433,6 +440,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
 .hero-slider {
   position: relative;
   margin: 0;
+  max-width: 640px;
   border-radius: var(--r-lg);
   overflow: hidden;
   background:
@@ -537,15 +545,19 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; col
 .stat-num {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(56px, 8vw, 96px);
+  font-size: clamp(56px, 7vw, 88px);
   line-height: 0.9;
   letter-spacing: -0.04em;
   color: var(--ink);
   margin-bottom: 8px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
 }
 .stat-num .stat-unit {
   font-size: 0.4em;
-  margin-left: 6px;
+  margin-left: 0;
   color: var(--pink-deep);
   font-weight: 600;
 }
