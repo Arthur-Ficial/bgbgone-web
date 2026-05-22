@@ -1,0 +1,47 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  repository_dispatch:
+    types: [bgbgone-release]
+  workflow_dispatch:
+
+jobs:
+  test:
+    # bgbgone (Apple Vision) only runs on macOS, so we can't `make build`
+    # in CI — but the rendered assets are checked into the repo, so the
+    # static + Playwright + Lighthouse gates are fully runnable on Linux.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      - name: static contract checks
+        run: node tests/static.test.mjs
+
+      - name: mobile-first overflow + axe contrast
+        run: node --test tests/mobile.test.mjs
+
+      - name: lighthouse mobile gates
+        run: node --test tests/lighthouse.test.mjs
+
+      - name: visual-AI per-section rubric
+        if: env.ANTHROPIC_API_KEY != ''
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node --test tests/visual-ai.test.mjs
+
+      - name: archive test screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-screens
+          path: tests/screens/
+          if-no-files-found: ignore

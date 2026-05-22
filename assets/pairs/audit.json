@@ -1,0 +1,10 @@
+{
+  "audited_at": "2026-05-22T09:08:00Z",
+  "rubric": "GOOD = subject fully present and recognisable, background actually removed (transparent or alpha-checker). BAD = subject torn/missing or large patches of original background remain.",
+  "default_cuts": [
+    { "slug": "gallery-car",    "algo": "auto", "verdict": "GOOD", "note": "pink Cadillac fully intact, background cleanly removed to transparent" },
+    { "slug": "gallery-plane",  "algo": "auto", "verdict": "GOOD", "note": "F-22 fully intact, head-on, background fully removed to transparent" },
+    { "slug": "gallery-aldrin", "algo": "auto", "verdict": "GOOD", "note": "Aldrin astronaut intact with suit/helmet, lunar background fully removed" },
+    { "slug": "gallery-bison",  "algo": "auto", "verdict": "GOOD", "note": "bison fully intact, snowy background cleanly removed" }
+  ]
+}
