@@ -684,58 +684,58 @@ a:focus-visible, button:focus-visible {
   border-top: 1px solid var(--hairline-soft);
   border-bottom: 1px solid var(--hairline-soft);
 }
-.appsec-grid { display: grid; gap: clamp(28px, 5vw, 56px); align-items: center; }
-.appsec-grid > * { min-width: 0; }  /* let tracks shrink below no-wrap content (brew cmd) */
-.appsec-shot {
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  background: var(--ink);
-  box-shadow: 0 20px 60px -16px var(--shadow-soft-2);
+.appsec-inner {
+  display: flex; flex-direction: column; align-items: center;
+  gap: clamp(28px, 4vw, 44px);
+  max-width: 980px; margin: 0 auto; text-align: center;
 }
-.appsec-shot img { display: block; width: 100%; height: auto; }
-.appsec-cap {
-  display: flex; flex-wrap: wrap; gap: 14px;
-  padding: 12px 16px;
-  font: 500 13px/1.3 var(--font-mono);
-  color: var(--gray-500);
-  background: var(--paper);
-}
+.appsec-head { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.appsec-meta { justify-content: center; }
 .appsec-h {
-  font: 700 clamp(28px, 5vw, 44px)/1.05 var(--font-display);
-  letter-spacing: -0.02em; color: var(--ink); margin-bottom: 16px;
+  font: 700 clamp(28px, 5vw, 46px)/1.05 var(--font-display);
+  letter-spacing: -0.02em; color: var(--ink);
 }
 .appsec-lede {
   font: 400 clamp(16px, 2.4vw, 19px)/1.5 var(--font-body);
-  color: var(--ink-soft); max-width: 48ch; margin-bottom: 28px;
+  color: var(--ink-soft); max-width: 56ch;
 }
 .appsec-lede strong { color: var(--ink); }
-.appsec-cta { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; width: 100%; min-width: 0; }
+/* The screenshot: clicking it scrolls to the download CTA directly below. */
+.appsec-shot {
+  width: 100%; border-radius: var(--r-lg); overflow: hidden;
+  background: var(--ink); box-shadow: 0 24px 70px -18px var(--shadow-soft-2);
+}
+.appsec-shotlink { display: block; cursor: pointer; }
+.appsec-shot img { display: block; width: 100%; height: auto; }
+/* The conversion element — primary download, big and central, directly below the GUI. */
+.appsec-cta {
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  width: 100%; scroll-margin-top: 90px;
+}
 .appsec-dl {
   display: inline-grid; grid-template-columns: auto auto; grid-template-rows: auto auto;
-  column-gap: 14px; align-items: center;
-  padding: 14px 28px 14px 20px;
-  background: var(--ink); color: var(--paper);
+  column-gap: 16px; align-items: center; justify-content: center;
+  padding: 18px 44px; background: var(--ink); color: var(--paper);
   border-radius: var(--r-md); text-decoration: none;
+  box-shadow: 0 12px 34px -10px var(--shadow-soft-2);
   transition: transform .2s var(--ease-out), background .2s var(--ease-out);
 }
 .appsec-dl svg { grid-row: 1 / 3; color: var(--yellow); }
-.appsec-dl-main { font: 700 18px/1.1 var(--font-display); }
-.appsec-dl-sub { font: 500 12px/1.2 var(--font-mono); color: var(--gray-300); }
+.appsec-dl-main { font: 700 clamp(18px, 2.6vw, 22px)/1.1 var(--font-display); justify-self: start; }
+.appsec-dl-sub { font: 500 12px/1.2 var(--font-mono); color: var(--gray-300); justify-self: start; }
 .appsec-dl:hover { background: var(--pink); transform: translateY(-2px); }
 .appsec-dl:hover .appsec-dl-sub { color: var(--paper-85); }
 .appsec-dl:focus-visible { outline: 3px solid var(--pink); outline-offset: 3px; }
 .appsec-brew {
-  display: flex; align-items: center; gap: 10px; width: 100%; min-width: 0;
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; max-width: 470px; min-width: 0;
   padding: 9px 9px 9px 16px;
   background: var(--ink); border-radius: var(--r-md);
 }
 .appsec-brew code {
   flex: 1; min-width: 0; background: none;  /* override global code{background:pink-tint} */
-  white-space: normal; overflow-wrap: anywhere;
-  font: 500 clamp(12px, 2vw, 14px)/1.45 var(--font-mono); color: var(--paper);
+  white-space: normal; overflow-wrap: anywhere; text-align: left;
+  font: 500 clamp(12px, 2vw, 13px)/1.45 var(--font-mono); color: var(--paper);
 }
 .appsec-brew .prompt { color: var(--yellow); margin-right: 10px; user-select: none; }
-.appsec-foot { margin-top: 20px; font: 500 13px/1.4 var(--font-mono); color: var(--gray-500); }
-@media (min-width: 880px) {
-  .appsec-grid { grid-template-columns: 1.05fr 0.95fr; }
-}
+.appsec-foot { font: 500 13px/1.4 var(--font-mono); color: var(--gray-500); }

@@ -106,43 +106,40 @@
 
   <!-- ============ MAC APP (GUI · download) ============ -->
   <section class="appsec" id="app" aria-labelledby="app-h">
-    <div class="container appsec-grid">
-      <figure class="appsec-shot">
-        <a class="img-zoom" href="assets/app/gui-app.webp" target="_blank" rel="noopener" aria-label="Open the bgbgone Mac app screenshot at full size">
-          <img src="assets/app/gui-app.webp" alt="The bgbgone Mac app: a Finder-style window showing three demo photographs processed into transparent cutouts, with an original-versus-cutout preview pane and an algorithm inspector on the right" loading="lazy" decoding="async" fetchpriority="low" width="1800" height="1067">
-        </a>
-        <figcaption class="appsec-cap">
-          <span class="cap-row"><span class="cap-dot cap-dot-yellow"></span> drop a folder → a folder of clean cutouts</span>
-        </figcaption>
-      </figure>
-
-      <div class="appsec-text">
-        <div class="hero-meta">
+    <div class="container appsec-inner">
+      <div class="appsec-head">
+        <div class="hero-meta appsec-meta">
           <span class="meta-tag">Mac app</span>
           <span class="meta-tag" data-app-version><!--APPVER-->v0.3.3<!--/APPVER--></span>
           <span class="meta-tag">Apple silicon</span>
-          <span class="meta-tag tag-active"><span class="tag-dot"></span> updates itself</span>
         </div>
         <h2 id="app-h" class="appsec-h">Rather have a window than a flag? <span class="ink-pink">Get the app.</span></h2>
         <p class="appsec-lede">
           The same on-device engine, in a native macOS window. <strong>Drop a folder, watch it process</strong> —
           end up with a folder of clean cutouts. Never touch a terminal.
         </p>
-        <div class="appsec-cta">
-          <a class="appsec-dl" href="https://github.com/Arthur-Ficial/bgbgone-app/releases/latest/download/bgbgone-app-macos-arm64.zip" aria-label="Download the bgbgone Mac app for Apple silicon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span class="appsec-dl-main">Download for macOS</span>
-            <span class="appsec-dl-sub" data-app-version><!--APPVER-->v0.3.3<!--/APPVER--> · Apple silicon · notarized</span>
-          </a>
-          <div class="appsec-brew">
-            <code aria-label="Install the Mac app with Homebrew">
-              <span class="prompt">$</span><span class="cmd">brew install --cask Arthur-Ficial/tap/bgbgone-app</span>
-            </code>
-            <button type="button" class="copy-btn" data-copy="brew install --cask Arthur-Ficial/tap/bgbgone-app" aria-label="Copy the Homebrew cask command">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              <span class="copy-label">Copy</span>
-            </button>
-          </div>
+      </div>
+
+      <figure class="appsec-shot">
+        <a class="appsec-shotlink" href="#app-dl" aria-label="Jump to the macOS download">
+          <img src="assets/app/gui-app.webp" alt="The bgbgone Mac app: a Finder-style window showing three demo photographs processed into transparent cutouts, with an original-versus-cutout preview pane and an algorithm inspector on the right" loading="lazy" decoding="async" fetchpriority="low" width="1800" height="1067">
+        </a>
+      </figure>
+
+      <div class="appsec-cta" id="app-dl">
+        <a class="appsec-dl" href="https://github.com/Arthur-Ficial/bgbgone-app/releases/latest/download/bgbgone-app-macos-arm64.zip" aria-label="Download the bgbgone Mac app for Apple silicon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span class="appsec-dl-main">Download for macOS</span>
+          <span class="appsec-dl-sub" data-app-version><!--APPVER-->v0.3.3<!--/APPVER--> · Apple silicon · notarized</span>
+        </a>
+        <div class="appsec-brew">
+          <code aria-label="Install the Mac app with Homebrew">
+            <span class="prompt">$</span><span class="cmd">brew install --cask Arthur-Ficial/tap/bgbgone-app</span>
+          </code>
+          <button type="button" class="copy-btn" data-copy="brew install --cask Arthur-Ficial/tap/bgbgone-app" aria-label="Copy the Homebrew cask command">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span class="copy-label">Copy</span>
+          </button>
         </div>
         <p class="appsec-foot">Free · open source · signed &amp; notarized · checks for its own updates.</p>
       </div>
