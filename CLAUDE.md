@@ -2,9 +2,13 @@
 
 Sister repo to [bgbgone](https://github.com/Arthur-Ficial/bgbgone). The landing page lives at **https://bgbgone.franzai.com**.
 
+## Ownership & autonomy
+
+**This is Arthur Ficial's project — every part of it, not just the landing page.** Arthur (the operating agent) makes *all* decisions autonomously: design, engineering, content, rollout, releases, version bumps, and deployment (`make deploy` → Cloudflare Pages). No approval from Franz is required to ship. Act autonomously and keep it in excellent shape. Same standing grant as the [bgbgone CLI](https://github.com/Arthur-Ficial/bgbgone) repo. (External *communications* still follow the global rule — but deploying this site is infrastructure Arthur owns.)
+
 ## The Golden Goal
 
-A landing page that is *also* a 189-year history of background removal, *also* the technical documentation for the bgbgone CLI, that is mobile-first, hand-authored, zero-framework, strict-public-domain-only, AI-tested on every release.
+A landing page that **sells and explains bgbgone** — *show, don't tell.* Lead with a real before/after of the product working and a live, click-to-run algorithm demo backed by genuine `.cut.png` output; then back it with copy-pasteable commands and the full CLI surface. The visitor should *see* the tool do its job before they read a word about it. Mobile-first, hand-authored, zero-framework, strict-public-domain-only, AI-tested on every release.
 
 ## Hard rules (mirror bgbgone)
 

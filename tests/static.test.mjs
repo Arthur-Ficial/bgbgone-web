@@ -98,6 +98,9 @@ function dims(path) {
 // have its default-algo cut present and any per-algo cuts that exist
 // must match the src dimensions.
 const TIMELINE = [
+  ['red-panda',       'auto'],
+  ['corgi-puppy',     'auto'],
+  ['woman-singer',    'auto'],
   ['gallery-car',     'auto'],
   ['gallery-plane',   'auto'],
   ['gallery-aldrin',  'auto'],
@@ -165,6 +168,30 @@ if (!existsSync(join(ROOT, 'vendor/img-comparison-slider.min.js'))) fail('vendor
 else ok('vendor slider present');
 if (!existsSync(join(ROOT, 'assets/help.txt'))) fail('assets/help.txt missing');
 else ok('bgbgone --help snapshot present');
+
+/* 8. GUI app download section ------------------------------------------- */
+{
+  // Download link must use GitHub's always-latest permalink — never a hardcoded
+  // version — so it tracks new releases with zero edits.
+  const dl = html.match(/<a class="appsec-dl"[^>]+href="([^"]+)"/);
+  if (!dl) fail('download section: .appsec-dl link missing');
+  else if (dl[1] !== 'https://github.com/Arthur-Ficial/bgbgone-app/releases/latest/download/bgbgone-app-macos-arm64.zip') {
+    fail(`download link is not the latest-release permalink: ${dl[1]}`);
+  } else ok('download link → releases/latest/download permalink (auto-latest)');
+
+  // Version label is baked between markers (no runtime fetch), valid vX.Y.Z, and
+  // consistent across every marker. scripts/sync-app-version.sh keeps it current.
+  const vers = [...html.matchAll(/<!--APPVER-->(.*?)<!--\/APPVER-->/g)].map(m => m[1]);
+  if (vers.length < 2) fail(`expected >=2 APPVER markers, found ${vers.length} — run scripts/sync-app-version.sh`);
+  else if (!vers.every(v => /^v\d+\.\d+\.\d+$/.test(v))) fail(`APPVER markers not all vX.Y.Z: ${vers.join(', ')}`);
+  else if (new Set(vers).size !== 1) fail(`APPVER markers disagree: ${vers.join(' vs ')}`);
+  else ok(`app version baked + consistent (${vers[0]})`);
+
+  if (!/id="app"/.test(html)) fail('missing #app download section'); else ok('#app section present');
+  if (!/href="#app"/.test(html)) fail('missing #app nav link'); else ok('#app nav link present');
+  if (!existsSync(join(ROOT, 'assets/app/gui-app.webp'))) fail('missing assets/app/gui-app.webp');
+  else ok('GUI app screenshot asset present');
+}
 
 if (!process.exitCode) {
   console.log('\nall static contract checks green');

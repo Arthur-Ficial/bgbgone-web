@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+console.log('launching');
+const b = await chromium.launch();
+console.log('launched', await b.version());
+const p = await b.newPage();
+await p.setContent('<h1>hi</h1>');
+await p.screenshot({ path: 'tests/screens/_mini.png' });
+console.log('shot ok');
+await b.close();
+console.log('DONE');

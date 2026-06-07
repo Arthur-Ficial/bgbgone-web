@@ -1,4 +1,4 @@
-.PHONY: help fetch build test test-static test-mobile test-visual test-lh serve deploy bump install-deps
+.PHONY: help fetch build test test-static test-mobile test-gallery test-clicks test-image-pairs test-visual test-gallery-visual test-sliders-hardcore test-lh serve deploy bump install-deps
 
 VERSION := $(shell cat .version)
 BGBGONE_REPO ?= /Users/arthurficial/dev/bgbgone
@@ -36,8 +36,9 @@ build: bump fetch
 	bash scripts/build-assets.sh
 	bash scripts/verify-pairs.sh
 	bash scripts/snapshot-help.sh
+	bash scripts/sync-app-version.sh
 
-test: test-static test-mobile test-lh test-visual
+test: test-static test-image-pairs test-mobile test-gallery test-clicks test-lh test-visual test-sliders-hardcore
 	@echo ""
 	@echo "all gates green — bgbgone-web $(VERSION)"
 
@@ -47,8 +48,23 @@ test-static:
 test-mobile:
 	node --test tests/mobile.test.mjs
 
+test-gallery:
+	node --test tests/gallery.test.mjs
+
+test-image-pairs:
+	node --test tests/image-pairs.test.mjs
+
+test-clicks:
+	node --test tests/clicks.test.mjs
+
 test-visual:
 	node --test tests/visual-ai.test.mjs
+
+test-gallery-visual:
+	node --test tests/gallery-visual.test.mjs
+
+test-sliders-hardcore:
+	node --test tests/sliders-hardcore.test.mjs
 
 test-lh:
 	node --test tests/lighthouse.test.mjs

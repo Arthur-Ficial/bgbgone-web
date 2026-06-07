@@ -34,7 +34,14 @@
     "gallery-car/auto",
     "gallery-car/saliency",
     "gallery-plane/auto",
-    "gallery-plane/saliency"
+    "gallery-plane/saliency",
+    "red-panda/auto",
+    "red-panda/saliency",
+    "corgi-puppy/auto",
+    "corgi-puppy/saliency",
+    "woman-singer/auto",
+    "woman-singer/person",
+    "woman-singer/saliency"
   ],
   "failed": [
     "gallery-car/person",
@@ -43,6 +50,8 @@
     "gallery-bison/person",
     "gallery-aldrin/person",
     "2015-curiosity-selfie/person",
-    "gallery-plane/person"
+    "gallery-plane/person",
+    "red-panda/person",
+    "corgi-puppy/person"
   ]
 }

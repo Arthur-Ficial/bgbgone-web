@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>bgbgone — Background, be gone.</title>
-  <meta name="description" content="One shell command. Any image. Transparent cutout in 81 milliseconds. 100% on your Mac. 100% scriptable. A 3 MB binary you brew install once and own forever.">
+  <meta name="description" content="A UNIX-style background remover for macOS. Image in, image out — Apple Vision masks plus Core Image, zero dependencies, 100% on-device, 100% scriptable. A 3 MB binary you brew install once and own forever.">
   <meta name="theme-color" content="#E91E63">
   <meta name="color-scheme" content="light only">
   <meta name="author" content="Arthur-Ficial">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://bgbgone.franzai.com">
   <meta property="og:title" content="bgbgone — Background, be gone.">
-  <meta property="og:description" content="One shell command. Any image. Transparent cutout in 81 ms. 100% on-device. 100% scriptable. A 3 MB CLI for macOS.">
+  <meta property="og:description" content="A UNIX-style background remover for macOS. Apple Vision + Core Image. 100% on-device. 100% scriptable. A 3 MB CLI you own forever.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://bgbgone.franzai.com">
   <meta property="og:image" content="https://bgbgone.franzai.com/assets/og.png">
@@ -21,20 +21,26 @@
   <meta property="og:site_name" content="bgbgone">
   <meta property="og:locale" content="en_US">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23E91E63'/><rect x='28' y='28' width='44' height='44' fill='%23FFC107'/></svg>">
-  <link rel="stylesheet" href="style.css?v=0.2.2">
-  <script src="vendor/img-comparison-slider.min.js?v=0.2.2" defer></script>
+  <link rel="preload" as="image" href="assets/pairs/1984-mccandless-eva.cut.png" fetchpriority="high">
+  <link rel="stylesheet" href="style.css?v=0.2.8">
+  <!-- Render-blocking on purpose: registering the custom element before the
+       body is parsed prevents the comparison slider from reflowing on upgrade
+       (a large CLS hit). It is a 5 KB local file. -->
+  <script src="vendor/img-comparison-slider.min.js?v=0.2.8"></script>
 </head>
 <body>
 
   <!-- ============ NAV ============ -->
-  <nav class="nav" id="nav">
+  <nav class="nav" id="nav" aria-label="Primary">
     <div class="container nav-inner">
-      <a href="#" class="nav-logo">
+      <a href="#top" class="nav-logo">
         <span class="logo-mark" aria-hidden="true"></span>
         <span class="logo-text">bgbgone</span>
       </a>
       <div class="nav-links">
         <a href="#install">Install</a>
+        <a href="#app">App</a>
+        <a href="#gallery">Gallery</a>
         <a href="#examples">Examples</a>
         <a href="#flags">Flags</a>
         <a href="#ecosystem">Ecosystem</a>
@@ -46,30 +52,19 @@
     </div>
   </nav>
 
+  <main id="top">
+
   <!-- ============ HERO ============ -->
   <header class="hero">
     <div class="hero-bg" aria-hidden="true">
       <div class="hero-stripe stripe-1"></div>
       <div class="hero-stripe stripe-2"></div>
-      <div class="hero-stripe stripe-3"></div>
-      <div class="hero-stripe stripe-4"></div>
+      <div class="hero-grain"></div>
     </div>
     <div class="container hero-grid">
-      <figure class="hero-slider">
-        <img-comparison-slider class="hero-comp" value="50" hover="false">
-          <img slot="first"  src="assets/pairs/1984-mccandless-eva.src.jpg" alt="Bruce McCandless on EVA, 1984 — original NASA photo with deep space background" loading="eager" decoding="async">
-          <img slot="second" src="assets/pairs/1984-mccandless-eva.cut.png" alt="Same astronaut, background removed by bgbgone" loading="eager" decoding="async">
-        </img-comparison-slider>
-        <figcaption class="hero-slider-cap">
-          <span class="cap-row"><span class="cap-dot cap-dot-pink"></span> source · NASA STS-41-B · 1984</span>
-          <span class="cap-row"><span class="cap-dot cap-dot-yellow"></span> bgbgone in.jpg → cutout.png · 81 ms</span>
-          <span class="cap-hint">↔ drag</span>
-        </figcaption>
-      </figure>
-
       <div class="hero-text">
         <div class="hero-meta">
-          <span class="meta-tag">v0.1.37</span>
+          <span class="meta-tag">v1.2.23</span>
           <span class="meta-tag">macOS 26+</span>
           <span class="meta-tag">Swift 6.3+</span>
           <span class="meta-tag">MIT</span>
@@ -80,101 +75,170 @@
           <span class="title-line"><span class="title-strike">be gone.</span></span>
         </h1>
         <p class="hero-lede">
-          One shell command. Any image. <strong>Transparent cutout in 81 milliseconds.</strong>
-          100% on your Mac. 100% scriptable. Others sell this as a subscription, but free
-          and open source is just cooler.
+          Background remover for macOS. <strong>Image in, image out</strong> —
+          Apple Vision, on-device, scriptable.
         </p>
         <div class="hero-install">
           <code id="install-cmd" aria-label="Install command">
             <span class="prompt">$</span><span class="cmd">brew install Arthur-Ficial/tap/bgbgone</span>
           </code>
-          <button type="button" class="copy-btn" data-copy="brew install Arthur-Ficial/tap/bgbgone">
+          <button type="button" class="copy-btn" data-copy="brew install Arthur-Ficial/tap/bgbgone" aria-label="Copy install command">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <span class="copy-label">Copy</span>
           </button>
         </div>
-        <p class="hero-foot">
-          A small binary you <code>brew install</code> once and own forever.
-          No Xcode. Zero dependencies.
-        </p>
+        <p class="hero-foot">3 MB binary. No cloud. No account.</p>
       </div>
+
+      <figure class="hero-slider">
+        <img-comparison-slider class="hero-comp" value="50" hover="false">
+          <img slot="first"  src="assets/pairs/1984-mccandless-eva.src.jpg" alt="Bruce McCandless on his 1984 untethered spacewalk — original NASA photo with the black of space behind him" loading="lazy" decoding="async" fetchpriority="low" width="1200" height="1200">
+          <img slot="second" src="assets/pairs/1984-mccandless-eva.cut.png" alt="The same astronaut with the space background removed by bgbgone, isolated on transparency" loading="eager" decoding="async" fetchpriority="high" width="1200" height="1200">
+        </img-comparison-slider>
+        <figcaption class="hero-slider-cap">
+          <span class="cap-row"><span class="cap-dot cap-dot-pink"></span> source · NASA STS-41-B · 1984</span>
+          <span class="cap-row"><span class="cap-dot cap-dot-yellow"></span> bgbgone in.jpg → cutout.png</span>
+          <span class="cap-hint">↔ drag</span>
+        </figcaption>
+      </figure>
     </div>
   </header>
 
-  <!-- ============ STATS ============ -->
-  <section class="stats">
-    <div class="container">
-      <div class="stats-head">
-        <span class="kicker">01 · Receipts</span>
-        <h2>Numbers, not adjectives.</h2>
-        <p>Release-gate performance, measured on every tag with <code>bash Tests/performance/run-100.sh</code>. 100 fixture-backed inputs, five batch processes, 100 outputs verified per run.</p>
-      </div>
-      <div class="stats-grid">
-        <div class="stat">
-          <div class="stat-num">81<span class="stat-unit">ms</span></div>
-          <div class="stat-label">per image</div>
-          <div class="stat-desc">Apple Silicon, release binary, ≤1200px PD inputs. Real timing, not a marketing number.</div>
+  <!-- ============ MAC APP (GUI · download) ============ -->
+  <section class="appsec" id="app" aria-labelledby="app-h">
+    <div class="container appsec-grid">
+      <figure class="appsec-shot">
+        <a class="img-zoom" href="assets/app/gui-app.webp" target="_blank" rel="noopener" aria-label="Open the bgbgone Mac app screenshot at full size">
+          <img src="assets/app/gui-app.webp" alt="The bgbgone Mac app: a Finder-style window showing three demo photographs processed into transparent cutouts, with an original-versus-cutout preview pane and an algorithm inspector on the right" loading="lazy" decoding="async" fetchpriority="low" width="1800" height="1067">
+        </a>
+        <figcaption class="appsec-cap">
+          <span class="cap-row"><span class="cap-dot cap-dot-yellow"></span> drop a folder → a folder of clean cutouts</span>
+        </figcaption>
+      </figure>
+
+      <div class="appsec-text">
+        <div class="hero-meta">
+          <span class="meta-tag">Mac app</span>
+          <span class="meta-tag" data-app-version><!--APPVER-->v0.3.3<!--/APPVER--></span>
+          <span class="meta-tag">Apple silicon</span>
+          <span class="meta-tag tag-active"><span class="tag-dot"></span> updates itself</span>
         </div>
-        <div class="stat">
-          <div class="stat-num">12.3<span class="stat-unit">/s</span></div>
-          <div class="stat-label">throughput</div>
-          <div class="stat-desc">15 images in 1.22 s, averaged across five release-binary batch runs.</div>
+        <h2 id="app-h" class="appsec-h">Rather have a window than a flag? <span class="ink-pink">Get the app.</span></h2>
+        <p class="appsec-lede">
+          The same on-device engine, in a native macOS window. <strong>Drop a folder, watch it process</strong> —
+          end up with a folder of clean cutouts. Never touch a terminal.
+        </p>
+        <div class="appsec-cta">
+          <a class="appsec-dl" href="https://github.com/Arthur-Ficial/bgbgone-app/releases/latest/download/bgbgone-app-macos-arm64.zip" aria-label="Download the bgbgone Mac app for Apple silicon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span class="appsec-dl-main">Download for macOS</span>
+            <span class="appsec-dl-sub" data-app-version><!--APPVER-->v0.3.3<!--/APPVER--> · Apple silicon · notarized</span>
+          </a>
+          <div class="appsec-brew">
+            <code aria-label="Install the Mac app with Homebrew">
+              <span class="prompt">$</span><span class="cmd">brew install --cask Arthur-Ficial/tap/bgbgone-app</span>
+            </code>
+            <button type="button" class="copy-btn" data-copy="brew install --cask Arthur-Ficial/tap/bgbgone-app" aria-label="Copy the Homebrew cask command">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span class="copy-label">Copy</span>
+            </button>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-num">3<span class="stat-unit">MB</span></div>
-          <div class="stat-label">binary</div>
-          <div class="stat-desc">One static Mach-O. No Python runtime, no model file, no daemon.</div>
-        </div>
-        <div class="stat">
-          <div class="stat-num">0<span class="stat-unit">net</span></div>
-          <div class="stat-label">network calls</div>
-          <div class="stat-desc"><code>NetworkGuard.swift</code> intercepts <code>http/https/ws/wss</code> and exits with code 3.</div>
-        </div>
+        <p class="appsec-foot">Free · open source · signed &amp; notarized · checks for its own updates.</p>
       </div>
     </div>
   </section>
 
-  <!-- ============ WHY ============ -->
-  <section class="why" id="why">
+  <!-- ============ LIVE GALLERY (signature feature) ============ -->
+  <section class="gallery" id="gallery" aria-labelledby="gallery-h">
     <div class="container">
-      <div class="why-grid">
-        <div class="why-text">
-          <span class="kicker">02 · Why</span>
-          <h2>Every Mac ships with a foundation-model-class background remover. <span class="ink-pink">It's only reachable from Swift.</span></h2>
-          <p>
-            Apple's <a href="https://developer.apple.com/documentation/vision" target="_blank" rel="noopener">Vision framework</a>
-            exposes <code>VNGenerateForegroundInstanceMaskRequest</code> — free, on every Mac, offline.
-            <code>bgbgone</code> wraps it as a UNIX CLI so you can use it the way you already
-            use <code>sips</code>, <code>imagemagick</code>, or <code>ffmpeg</code>:
-            from shell scripts, build steps, batch jobs, makefiles, and pipelines.
-          </p>
-          <p>
-            It works on anything with a foreground subject:
-            photographs, paintings, spacecraft imagery, woodblock prints,
-            vintage product advertisements. <strong>One flag, sixteen subjects, no per-image tuning.</strong>
-          </p>
+      <div class="section-head">
+        <span class="kicker">01 · Live demo</span>
+        <h2 id="gallery-h">Pick a subject. Pick an algorithm. <span class="ink-pink">See the real cut.</span></h2>
+      </div>
+
+      <div class="demo">
+        <div class="demo-subjects" role="group" aria-label="Choose a subject">
+          <button type="button" class="subj is-active" data-subject="red-panda" aria-pressed="true">
+            <span class="subj-thumb"><img src="assets/pairs/red-panda.src.jpg" alt="" loading="lazy" fetchpriority="low" width="120" height="120"></span>
+            <span class="subj-meta"><span class="subj-name">Red panda</span><span class="subj-year">animal</span></span>
+          </button>
+          <button type="button" class="subj" data-subject="corgi-puppy" aria-pressed="false">
+            <span class="subj-thumb"><img src="assets/pairs/corgi-puppy.src.jpg" alt="" loading="lazy" fetchpriority="low" width="120" height="120"></span>
+            <span class="subj-meta"><span class="subj-name">Corgi</span><span class="subj-year">puppy</span></span>
+          </button>
+          <button type="button" class="subj" data-subject="woman-singer" aria-pressed="false">
+            <span class="subj-thumb"><img src="assets/pairs/woman-singer.src.jpg" alt="" loading="lazy" fetchpriority="low" width="120" height="120"></span>
+            <span class="subj-meta"><span class="subj-name">Singer</span><span class="subj-year">person</span></span>
+          </button>
+          <button type="button" class="subj" data-subject="1984-mccandless-eva" aria-pressed="false">
+            <span class="subj-thumb"><img src="assets/pairs/1984-mccandless-eva.src.jpg" alt="" loading="lazy" fetchpriority="low" width="120" height="120"></span>
+            <span class="subj-meta"><span class="subj-name">Astronaut</span><span class="subj-year">1984</span></span>
+          </button>
+          <button type="button" class="subj" data-subject="gallery-car" aria-pressed="false">
+            <span class="subj-thumb"><img src="assets/pairs/gallery-car.src.jpg" alt="" loading="lazy" fetchpriority="low" width="120" height="120"></span>
+            <span class="subj-meta"><span class="subj-name">Motor car</span><span class="subj-year">vintage</span></span>
+          </button>
+          <button type="button" class="subj" data-subject="gallery-plane" aria-pressed="false">
+            <span class="subj-thumb"><img src="assets/pairs/gallery-plane.src.jpg" alt="" loading="lazy" fetchpriority="low" width="120" height="120"></span>
+            <span class="subj-meta"><span class="subj-name">Aeroplane</span><span class="subj-year">vintage</span></span>
+          </button>
         </div>
-        <figure class="why-figure">
-          <a class="img-zoom" href="assets/showcase/showcase-cutouts.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/showcase-cutouts.png" alt="Sixteen public-domain subjects with their bgbgone cutouts laid out in a grid" loading="lazy" width="1440" height="626"></a>
-          <figcaption>16 strict-public-domain subjects · one CLI call each · zero per-image tuning</figcaption>
+
+        <figure class="demo-stage">
+          <div class="demo-frame">
+            <img-comparison-slider id="demo-slider" class="demo-comp" value="50" hover="false">
+              <img id="demo-before" slot="first"  src="assets/pairs/red-panda.src.jpg" alt="Original photograph, before background removal" loading="lazy" fetchpriority="low" width="1200" height="900">
+              <img id="demo-after"  slot="second" src="assets/pairs/red-panda.auto.cut.png" alt="The same photograph with its background removed by bgbgone" loading="lazy" fetchpriority="low" width="1200" height="900">
+            </img-comparison-slider>
+          </div>
+          <figcaption class="demo-controls">
+            <div class="demo-algos" id="demo-algos" role="group" aria-label="Choose a Vision algorithm">
+              <button type="button" class="algo is-active" data-algo="auto" aria-pressed="true">auto</button>
+              <button type="button" class="algo" data-algo="person" aria-pressed="false">person</button>
+              <button type="button" class="algo" data-algo="saliency" aria-pressed="false">saliency</button>
+            </div>
+            <pre class="demo-cli"><code id="demo-cli"><span class="c-prompt">$</span> <span class="c-cmd">bgbgone red-panda.jpg --algo auto</span></code></pre>
+          </figcaption>
         </figure>
       </div>
+      <p class="demo-note"><code>person</code> shows only where Vision finds a person — never faked.</p>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="stats" aria-labelledby="stats-h">
+    <div class="container">
+      <div class="stats-head">
+        <span class="kicker">02 · Receipts</span>
+        <h2 id="stats-h">Numbers, not adjectives.</h2>
+      </div>
+      <table class="stats-table">
+        <caption class="sr-only">Measured bgbgone performance and cost figures</caption>
+        <tbody>
+          <tr><td class="st-num">81<span class="st-unit">ms</span></td><td class="st-info"><div class="st-label">per image</div></td></tr>
+          <tr><td class="st-num">12.3<span class="st-unit">/s</span></td><td class="st-info"><div class="st-label">throughput</div></td></tr>
+          <tr><td class="st-num">3<span class="st-unit">MB</span></td><td class="st-info"><div class="st-label">binary</div></td></tr>
+          <tr><td class="st-num">0<span class="st-unit">net</span></td><td class="st-info"><div class="st-label">network calls</div></td></tr>
+          <tr><td class="st-num">0<span class="st-unit">$</span></td><td class="st-info"><div class="st-label">forever</div></td></tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
   <!-- ============ QUICK START ============ -->
-  <section class="quickstart" id="install">
+  <section class="quickstart" id="install" aria-labelledby="install-h">
     <div class="container">
       <div class="section-head">
-        <span class="kicker">03 · Quick start</span>
-        <h2>Seven invocations, one binary.</h2>
+        <span class="kicker">03 · Install</span>
+        <h2 id="install-h">Install. Run.</h2>
       </div>
       <div class="quickstart-grid">
         <div class="qs-install">
           <div class="card-label">Install</div>
           <pre><code><span class="c-cmd">brew tap Arthur-Ficial/tap</span>
 <span class="c-cmd">brew install Arthur-Ficial/tap/bgbgone</span></code></pre>
-          <p class="card-foot">Or from source: <code>make install</code>. Requires macOS 26+ and Command Line Tools. <strong>No Xcode needed.</strong></p>
+          <p class="card-foot">From source: <code>make install</code>. macOS 26+, no Xcode.</p>
         </div>
         <div class="qs-usage">
           <div class="card-label">Use</div>
@@ -200,331 +264,97 @@
 <span class="c-prompt">$</span> <span class="c-cmd">bgbgone --server</span></code></pre>
         </div>
       </div>
-      <aside class="routing-note">
-        <strong>Routing rule.</strong> When stdout is a terminal and the input is a file, bgbgone writes
-        <code>&lt;stem&gt;_bgbgone.&lt;ext&gt;</code> next to the input instead of dumping binary into the
-        terminal. When stdout is redirected, bgbgone writes image bytes to stdout. For portable scripts,
-        prefer <code>-o cutout.jpg</code> over <code>&gt; cutout.jpg</code>.
-      </aside>
     </div>
   </section>
 
   <!-- ============ EXAMPLES ============ -->
-  <section class="examples" id="examples">
+  <section class="examples" id="examples" aria-labelledby="examples-h">
     <div class="container">
       <div class="section-head">
         <span class="kicker">04 · Examples</span>
-        <h2>Every image below is produced by <code>bash&nbsp;scripts/make-readme-examples.sh</code> from real bgbgone invocations.</h2>
-        <p>Real binary, real fixtures, real outputs. The script is the audit trail.</p>
+        <h2 id="examples-h">One flag at a time. <span class="ink-pink">Real output.</span></h2>
       </div>
 
-      <!-- ---- Solid colour backgrounds ---- -->
+      <!-- ---- Transparent cutout (slider) ---- -->
       <article class="ex-block">
-        <header class="ex-head">
-          <h3><span class="ex-num">01</span> Solid colour backgrounds</h3>
-        </header>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg color:white       -o out.png</span>   <span class="c-comment"># named</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg color:black       -o out.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg color:#0066cc     -o out.png</span>   <span class="c-comment"># hex</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg color:rgb:0,200,0 -o out.png</span>   <span class="c-comment"># rgb triple</span></code></pre>
+        <header class="ex-head"><h3><span class="ex-num">01</span> Cutout</h3></header>
+        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone red-panda.jpg</span></code></pre>
+        <figure class="ex-figure ex-slider">
+          <img-comparison-slider class="ex-comp ex-comp-checker" style="aspect-ratio: 1200 / 795" value="50" hover="false">
+            <img slot="first"  src="assets/pairs/red-panda.src.jpg" alt="Original red panda photograph" loading="lazy" fetchpriority="low" width="1200" height="795">
+            <img slot="second" src="assets/pairs/red-panda.auto.cut.png" alt="Red panda with its background removed by bgbgone, on transparency" loading="lazy" fetchpriority="low" width="1200" height="795">
+          </img-comparison-slider>
+          <figcaption class="ex-cap">↔ drag</figcaption>
+        </figure>
+      </article>
+
+      <!-- ---- Solid colour background ---- -->
+      <article class="ex-block">
+        <header class="ex-head"><h3><span class="ex-num">02</span> Solid colour</h3></header>
+        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone red-panda.jpg --bg color:#1a2233</span></code></pre>
         <figure class="ex-figure">
-          <a class="img-zoom" href="assets/showcase/showcase-colors.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/showcase-colors.png" alt="--bg color across three subjects and four colour syntaxes" loading="lazy" width="1600" height="1012"></a>
+          <a class="img-zoom" href="assets/showcase/readme/panda-navy.jpg" target="_blank" rel="noopener" aria-label="Open full size"><img src="assets/showcase/readme/panda-navy.jpg" alt="Red panda composited onto a flat navy background" loading="lazy" width="1200" height="795"></a>
         </figure>
       </article>
 
-      <!-- ---- Image backgrounds ---- -->
+      <!-- ---- Image background ---- -->
       <article class="ex-block">
-        <header class="ex-head">
-          <h3><span class="ex-num">02</span> Image backgrounds</h3>
-        </header>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg image:./bg.jpg                   -o out.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg image:./bg.jpg --bg-fit cover    -o out.png</span>   <span class="c-comment"># default</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg image:./bg.jpg --bg-fit contain  -o out.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg image:./bg.jpg --bg-fit tile     -o out.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg image:./bg.jpg --bg-fit center   -o out.png</span></code></pre>
+        <header class="ex-head"><h3><span class="ex-num">03</span> Any background</h3></header>
+        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone red-panda.jpg --bg image:nebula.png</span></code></pre>
         <figure class="ex-figure">
-          <a class="img-zoom" href="assets/showcase/showcase-image-bg.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/showcase-image-bg.png" alt="--bg image with each --bg-fit mode and two distinct backgrounds" loading="lazy" width="2160" height="692"></a>
-          <figcaption>Row 1 · same subject, every <code>--bg-fit</code> mode. Row 2 · same subject on two PD backgrounds.</figcaption>
+          <a class="img-zoom" href="assets/showcase/readme/panda-space.jpg" target="_blank" rel="noopener" aria-label="Open full size"><img src="assets/showcase/readme/panda-space.jpg" alt="Red panda composited onto a deep-space nebula" loading="lazy" width="1200" height="795"></a>
         </figure>
-        <figure class="ex-figure ex-figure-spaced">
-          <a class="img-zoom" href="assets/showcase/mona-lisa-tour.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/mona-lisa-tour.png" alt="The same Mona Lisa composited onto six different public-domain backgrounds" loading="lazy" width="1440" height="692"></a>
-          <figcaption>One subject, six backgrounds, one CLI call each.</figcaption>
-        </figure>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone mona-lisa.jpg --bg color:white                       -o studio.jpg</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone mona-lisa.jpg --bg color:black                       -o dark.jpg</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone mona-lisa.jpg --bg image:./hubble-ngc1300.jpg        -o galaxy.jpg</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone mona-lisa.jpg --bg image:./nasa-aldrin-moon.jpg      -o moon.jpg</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone mona-lisa.jpg --bg image:./hokusai-great-wave.jpg    -o wave.jpg</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone mona-lisa.jpg --bg image:./mars-curiosity.jpg        -o mars.jpg</span></code></pre>
       </article>
 
-      <!-- ---- Edge refinement ---- -->
+      <!-- ---- Colour-pop ---- -->
       <article class="ex-block">
-        <header class="ex-head">
-          <h3><span class="ex-num">03</span> Edge refinement</h3>
-        </header>
-        <p class="ex-prose">
-          <code>--feather&nbsp;&lt;px&gt;</code> softens the matte edge.
-          <code>--crop</code> tight-crops to the subject's bounding box.
-          <code>--padding</code> and <code>--crop-margin</code> add breathing room.
-          <code>--roi</code> limits detection to a region.
-          <code>--scale</code> and <code>--position</code> place the subject on the canvas.
-          <code>--shadow</code> drops a shadow under the cutout.
-          <code>--mask-only</code> emits the grayscale alpha matte.
-        </p>
+        <header class="ex-head"><h3><span class="ex-num">04</span> Colour-pop</h3></header>
+        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone red-panda.jpg --bg image:red-panda.jpg --filter bg:grayscale</span></code></pre>
         <figure class="ex-figure">
-          <a class="img-zoom" href="assets/showcase/showcase-edges.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/showcase-edges.png" alt="Feather progression 0 to 16 px, --crop, --padding, --shadow, --mask-only" loading="lazy" width="1600" height="744"></a>
+          <a class="img-zoom" href="assets/showcase/readme/panda-colourpop.jpg" target="_blank" rel="noopener" aria-label="Open full size"><img src="assets/showcase/readme/panda-colourpop.jpg" alt="Colour-pop red panda — subject in colour, background desaturated" loading="lazy" width="1200" height="795"></a>
         </figure>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg color:white --feather 8    -o soft.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --threshold 0.55                -o crisper.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --crop                          -o tight.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --crop --padding 10%            -o tight-padded.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --crop --crop-margin "5% 10%"   -o api-padded.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --roi "0% 0% 100% 80%"          -o top-region.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --scale 75% --position center   -o centered.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --bg color:white --shadow       -o dropshadow.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --shadow-type drop --shadow-opacity 25 -o soft-shadow.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --mask-only                     -o matte.png</span></code></pre>
-        <div class="ex-pair">
-          <figure class="ex-figure">
-            <a class="img-zoom" href="assets/showcase/mask-breakdown.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/mask-breakdown.png" alt="Input image, grayscale alpha matte, composited cutout" loading="lazy" width="1080" height="364"></a>
-            <figcaption>Input → grayscale matte → composite. <code>--mask-only</code> writes the middle.</figcaption>
-          </figure>
-          <figure class="ex-figure">
-            <a class="img-zoom" href="assets/showcase/feather-zoom.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/feather-zoom.png" alt="Pixel-level zoom comparing --feather 0 and --feather 8" loading="lazy" width="720" height="460"></a>
-            <figcaption>Pixel-level edge zoom · <code>--feather 0</code> vs <code>--feather 8</code>.</figcaption>
-          </figure>
-        </div>
       </article>
 
-      <!-- ---- Algorithms ---- -->
+      <!-- ---- Portrait blur ---- -->
       <article class="ex-block">
-        <header class="ex-head">
-          <h3><span class="ex-num">04</span> Algorithm selection</h3>
-        </header>
-        <p class="ex-prose">Three subjects, every supported algorithm side by side: a Mars rover, two figures in a meadow, and a painted Renaissance figure.</p>
-        <div class="algo-tabs" role="tablist" aria-label="Algorithm">
-          <button role="tab" class="algo-tab is-active" data-algo="auto">--algo auto</button>
-          <button role="tab" class="algo-tab" data-algo="vn-mask">--algo vn-mask</button>
-          <button role="tab" class="algo-tab" data-algo="person">--algo person</button>
-          <button role="tab" class="algo-tab" data-algo="saliency">--algo saliency</button>
-        </div>
-        <pre class="ex-code"><code id="algo-cmd"><span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --algo auto</span>       <span class="c-comment"># public foreground-instance mask (default)</span></code></pre>
+        <header class="ex-head"><h3><span class="ex-num">05</span> Portrait blur</h3></header>
+        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone red-panda.jpg --bg image:red-panda.jpg --filter bg:blur=60</span></code></pre>
         <figure class="ex-figure">
-          <a class="img-zoom" href="assets/showcase/showcase-algos.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/showcase-algos.png" alt="vn-mask, person and saliency algorithms compared on three subjects" loading="lazy" width="1280" height="1012"></a>
+          <a class="img-zoom" href="assets/showcase/readme/panda-portrait.jpg" target="_blank" rel="noopener" aria-label="Open full size"><img src="assets/showcase/readme/panda-portrait.jpg" alt="Portrait-mode red panda — sharp subject, blurred background" loading="lazy" width="1200" height="795"></a>
         </figure>
       </article>
 
-      <!-- ---- Output formats ---- -->
+      <!-- ---- Motion-radial backdrop (slider) ---- -->
       <article class="ex-block">
-        <header class="ex-head">
-          <h3><span class="ex-num">05</span> Output formats</h3>
-        </header>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --to png</span>                              <span class="c-comment"># transparent PNG (default)</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --to jpg --quality 92</span>                 <span class="c-comment"># white bg unless --bg is set</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --to zip</span>                              <span class="c-comment"># color.jpg + alpha.png package</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg -o out.jpg</span>                            <span class="c-comment"># extension infers JPEG</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --to heic</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --to avif</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --to tiff</span></code></pre>
-        <ul class="format-chips">
-          <li>png</li><li>jpg</li><li>zip</li><li>heic</li><li>avif</li><li>tiff</li>
-        </ul>
-      </article>
-
-      <!-- ---- Multi-instance ---- -->
-      <article class="ex-block">
-        <header class="ex-head">
-          <h3><span class="ex-num">06</span> Multi-instance</h3>
-        </header>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone team.jpg --multi --out-dir ./people/</span>
-<span class="c-comment"># people/team-1.png, people/team-2.png, ...</span>
-
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone team.jpg --multi --instance-naming "subject_{n:02}.{ext}" --out-dir ./people/</span>
-<span class="c-comment"># people/subject_01.png, people/subject_02.png, ...</span></code></pre>
-        <p class="ex-prose">
-          The number of instances is decided by Vision. For tightly-grouped or touching subjects
-          (e.g. an Apollo crew shoulder-to-shoulder) Vision returns one combined instance.
-          For subjects with visible spatial gaps you get one file per subject.
-        </p>
-        <aside class="routing-note routing-note-tight">
-          <strong>Note.</strong> <code>--multi</code> is file-output only: it needs a file input stem
-          for naming, cannot read image data from stdin, and cannot be combined with <code>-o</code>
-          or <code>--mask-only</code>. If <code>--out-dir</code> is omitted, files are written beside
-          the input image.
-        </aside>
-      </article>
-
-      <!-- ---- Structured output ---- -->
-      <article class="ex-block">
-        <header class="ex-head">
-          <h3><span class="ex-num">07</span> Structured output</h3>
-        </header>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone in.jpg --json -o out.png</span></code></pre>
-        <pre class="ex-code ex-code-json"><code>{"input":"in.jpg","output":"out.png","algo":"vn-mask","format":"png","width":1280,"height":960}</code></pre>
-        <p class="ex-prose">NDJSON streams through <code>jq</code>:</p>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">ls *.jpg | xargs -I{} bgbgone {} --ndjson --out-dir ./out/ \
-    | jq -s 'group_by(.algo) | map({algo: .[0].algo, n: length})'</span></code></pre>
-      </article>
-
-      <!-- ---- Pipeline ---- -->
-      <article class="ex-block">
-        <header class="ex-head">
-          <h3><span class="ex-num">08</span> Pipe into downstream AI</h3>
-        </header>
-        <p class="ex-prose">A clean cutout makes downstream classifiers, embedders, and OCR more accurate. With <a href="https://github.com/Arthur-Ficial/auge" target="_blank" rel="noopener">auge</a>:</p>
-        <figure class="ex-figure">
-          <a class="img-zoom" href="assets/showcase/showcase-pipeline.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/showcase-pipeline.png" alt="bgbgone piped into auge with real classify output" loading="lazy" width="1440" height="412"></a>
+        <header class="ex-head"><h3><span class="ex-num">06</span> Motion backdrop</h3></header>
+        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone woman-singer.jpg --type person --bg image:woman-singer.jpg --filter bg:zoom-blur</span></code></pre>
+        <figure class="ex-figure ex-slider">
+          <img-comparison-slider class="ex-comp" style="aspect-ratio: 1200 / 800" value="50" hover="false">
+            <img slot="first"  src="assets/showcase/readme/singer-before.jpg" alt="Original photograph of the singer on stage" loading="lazy" fetchpriority="low" width="1200" height="800">
+            <img slot="second" src="assets/showcase/readme/singer-zoomblur.jpg" alt="The singer with a radial zoom-blur backdrop, subject sharp" loading="lazy" fetchpriority="low" width="1200" height="800">
+          </img-comparison-slider>
+          <figcaption class="ex-cap">↔ drag</figcaption>
         </figure>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone Tests/fixtures/06-nasa-mars-curiosity-selfie.jpg \
-    --bg color:black --to jpg -o /tmp/cut.jpg</span>
-<span class="c-prompt">$</span> <span class="c-cmd">auge --classify /tmp/cut.jpg --top 5</span>
-<span class="c-out">machine: 52%
-toy: 12%
-figurine: 12%
-art: 10%
-statue: 10%</span></code></pre>
       </article>
 
-      <!-- ---- Product photography ---- -->
+      <!-- ---- Die-cut sticker ---- -->
       <article class="ex-block">
-        <header class="ex-head">
-          <h3><span class="ex-num">09</span> Product photography · every step</h3>
-        </header>
-        <p class="ex-prose">For each vintage product fixture: <strong>source</strong> → <strong>mask-only</strong> matte → <strong>transparent cutout</strong> → <strong>composed</strong> onto a public-domain background. Same four-step pipeline, four different products.</p>
-        <figure class="ex-figure">
-          <a class="img-zoom" href="assets/showcase/showcase-products.png" target="_blank" rel="noopener" aria-label="Open full-size image"><img src="assets/showcase/showcase-products.png" alt="Product photography pipeline: source, mask-only, cutout, composed on PD background" loading="lazy" width="1280" height="1492"></a>
+        <header class="ex-head"><h3><span class="ex-num">07</span> Sticker</h3></header>
+        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone corgi-puppy.jpg --crop --filter fg:outline=color=#fff:width=30</span></code></pre>
+        <figure class="ex-figure ex-figure-tall">
+          <a class="img-zoom" href="assets/showcase/readme/corgi-sticker.jpg" target="_blank" rel="noopener" aria-label="Open full size"><img src="assets/showcase/readme/corgi-sticker.jpg" alt="Corgi puppy as a die-cut sticker with a hard white outline" loading="lazy" width="404" height="1000"></a>
         </figure>
-        <pre class="ex-code"><code><span class="c-prompt">$</span> <span class="c-cmd">bgbgone pierce-arrow-1909.jpg --mask-only                          -o matte.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone pierce-arrow-1909.jpg                                      -o cutout.png</span>
-<span class="c-prompt">$</span> <span class="c-cmd">bgbgone pierce-arrow-1909.jpg --bg image:nasa-aldrin-moon.jpg      -o on-moon.png</span></code></pre>
-        <p class="ex-prose">Swap the new-background line for <code>--bg color:white</code> and you have a white-bg product-catalogue pipeline.</p>
       </article>
 
-    </div>
-  </section>
-
-  <!-- ============ SERVER ============ -->
-  <section class="server" id="server">
-    <div class="container">
-      <div class="section-head section-head-onpink">
-        <span class="kicker kicker-onpink">05 · Local HTTP API</span>
-        <h2>Same pipeline. Same on-device guarantee.</h2>
-        <p>Drop <code>bgbgone --server</code> and you have a 127.0.0.1 endpoint that accepts uploaded image bytes, runs the same Vision/Core Image pipeline as the CLI, and <strong>never fetches remote URLs.</strong></p>
-      </div>
-      <div class="server-grid">
-        <pre class="server-code"><code><span class="c-prompt c-prompt-light">$</span> <span class="c-cmd-light">bgbgone --server</span></code></pre>
-        <pre class="server-code"><code><span class="c-prompt c-prompt-light">$</span> <span class="c-cmd-light">curl -X POST http://127.0.0.1:8787/v1.0/bgbgone \
-    -F image_file=@photo.jpg \
-    -F format=png \
-    -o cutout.png</span></code></pre>
-      </div>
-      <ul class="server-feats">
-        <li><span class="bullet">·</span> Binds to <code>127.0.0.1:8787</code> by default</li>
-        <li><span class="bullet">·</span> Optional <code>Bearer</code> token auth</li>
-        <li><span class="bullet">·</span> Optional <code>X-API-Key</code> token checks</li>
-        <li><span class="bullet">·</span> CORS for trusted local browser apps</li>
-        <li><span class="bullet">·</span> Origin checks</li>
-        <li><span class="bullet">·</span> JSON / form / multipart bodies</li>
-        <li><span class="bullet">·</span> ZIP output, metadata headers</li>
-        <li><span class="bullet">·</span> Request body limit (default 32 MB)</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ============ RECIPES ============ -->
-  <section class="recipes" id="recipes">
-    <div class="container">
-      <div class="section-head">
-        <span class="kicker">06 · Recipes</span>
-        <h2>Drop into your shell, swap the path.</h2>
-      </div>
-      <div class="recipes-grid">
-
-        <article class="recipe">
-          <div class="recipe-label">01 · catalogue</div>
-          <h3>Catalogue a photo library on white</h3>
-          <pre><code><span class="c-cmd">for f in ~/products/*.heic; do
-  bgbgone "$f" --bg color:white \
-    --to jpg --quality 92 \
-    --out-dir ~/catalogue/ --json
-done | jq -s 'group_by(.algo) |
-  map({algo: .[0].algo, count: length})'</span></code></pre>
-        </article>
-
-        <article class="recipe">
-          <div class="recipe-label">02 · avatar</div>
-          <h3>Brand-coloured profile picture</h3>
-          <pre><code><span class="c-cmd">bgbgone selfie.jpg \
-  --bg color:#0066cc \
-  --crop --feather 2 \
-  --to jpg --quality 95 \
-  -o linkedin-avatar.jpg</span></code></pre>
-        </article>
-
-        <article class="recipe">
-          <div class="recipe-label">03 · stickers</div>
-          <h3>Sticker pack from a group photo</h3>
-          <pre><code><span class="c-cmd">bgbgone team-portrait.jpg --multi \
-  --instance-naming \
-    "{base}-sticker-{n:02}.{ext}" \
-  --out-dir ./stickers/</span></code></pre>
-        </article>
-
-        <article class="recipe">
-          <div class="recipe-label">04 · doc shot</div>
-          <h3>Doc-site product shot</h3>
-          <pre><code><span class="c-cmd">bgbgone product.heic \
-  --bg color:white --crop --feather 1 \
-  --to jpg --quality 92 \
-  -o ./docs/product-shot.jpg</span></code></pre>
-        </article>
-
-        <article class="recipe recipe-wide">
-          <div class="recipe-label">05 · chain</div>
-          <h3>Chain with sibling tools — classify or embed the cleaner cutout</h3>
-          <pre><code><span class="c-cmd">bgbgone photo.jpg --bg color:black --to jpg -o /tmp/x.jpg &amp;&amp; auge --classify /tmp/x.jpg
-bgbgone photo.jpg --bg color:black --to jpg -o /tmp/x.jpg &amp;&amp; kern --embed-image /tmp/x.jpg</span></code></pre>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ CAPABILITY ============ -->
-  <section class="capability" id="capability">
-    <div class="container">
-      <div class="section-head">
-        <span class="kicker">07 · Capabilities</span>
-        <h2>Ask the binary what it can do.</h2>
-      </div>
-      <div class="check-box">
-        <div class="check-bar">
-          <div class="check-dots"><span></span><span></span><span></span></div>
-          <span class="check-title">bgbgone --check</span>
-        </div>
-        <pre class="check-out"><code>bgbgone v0.1.20 capability report
-  OS:                  macOS 26.3.1
-  Algorithms:
-    vn-mask            available (foreground-instance mask, macOS 14+)
-    person             available (Vision person segmentation, macOS 12+)
-    saliency           available (Vision objectness saliency, macOS 10.15+)
-  Output formats:      png, jpg, zip, heic, avif, tiff
-  Backgrounds:
-    color              always available
-    image              always available
-  Pipeline:
-    network            hard-blocked at runtime</code></pre>
-      </div>
     </div>
   </section>
 
   <!-- ============ ALL FLAGS ============ -->
-  <section class="flags" id="flags">
+  <section class="flags" id="flags" aria-labelledby="flags-h">
     <div class="container">
       <div class="section-head">
-        <span class="kicker">08 · All flags</span>
-        <h2>The whole surface, in one screen.</h2>
+        <span class="kicker">05 · Flags</span>
+        <h2 id="flags-h">The whole surface.</h2>
       </div>
       <div class="flags-grid">
 
@@ -605,98 +435,48 @@ bgbgone photo.jpg --bg color:black --to jpg -o /tmp/x.jpg &amp;&amp; kern --embe
           <div class="flag-title">Meta &amp; exit codes</div>
           <ul>
             <li><code>--json | --ndjson</code><span>structured output</span></li>
-            <li><code>--quiet | --verbose</code></li>
-            <li><code>--version | --help | -h</code></li>
+            <li><code>--quiet | --verbose</code><span>logging level</span></li>
+            <li><code>--version | --help | -h</code><span>meta</span></li>
             <li><code>--check</code><span>capability report</span></li>
           </ul>
           <table class="exit-codes">
+            <caption class="sr-only">Exit codes</caption>
             <tbody>
-              <tr><th>0</th><td>success</td></tr>
-              <tr><th>1</th><td>user error (bad input, refusing TTY)</td></tr>
-              <tr><th>2</th><td>parser error or no result</td></tr>
-              <tr><th>3</th><td>framework error (Vision unavailable)</td></tr>
+              <tr><th scope="row">0</th><td>success</td></tr>
+              <tr><th scope="row">1</th><td>user error (bad input, refusing TTY)</td></tr>
+              <tr><th scope="row">2</th><td>parser error or no result</td></tr>
+              <tr><th scope="row">3</th><td>framework error (Vision unavailable)</td></tr>
             </tbody>
           </table>
         </div>
 
       </div>
 
-      <aside class="routing-note">
-        <strong>Routing rules.</strong>
-        <code>-o</code> and <code>--out-dir</code> are mutually exclusive.
-        <code>stdin</code> input requires <code>stdout</code> or <code>-o</code>;
-        <code>--out-dir</code> needs file inputs.
-        <code>--multi</code> writes files; it cannot combine with <code>-o</code> or <code>--mask-only</code>.
-      </aside>
-    </div>
-  </section>
-
-  <!-- ============ ARCHITECTURE ============ -->
-  <section class="arch" id="arch">
-    <div class="container">
-      <div class="section-head">
-        <span class="kicker">09 · Architecture</span>
-        <h2>One pipeline. CLI and server share it.</h2>
-      </div>
-      <pre class="arch-diagram"><code>CLI args                    main.swift
-   │
-   ▼                        ConfigParser (pure Swift, no Apple framework deps, testable)
-Config
-   │
-   ▼                        BgBgOne pipeline
-   ├─→ ForegroundMask       Algorithms/: VNMask, Person, Saliency
-   ├─→ MaskPostProcess      threshold, feather, ROI, crop, padding, --mask-only
-   ├─→ Compositor           SolidColor + ImageBg
-   └─→ Output               ImageIO: PNG/JPG/HEIC/AVIF/TIFF + ZIP package
-HTTP server ───────────────→ same pipeline, multipart/JSON/form uploads, JSON/base64 option
-                            NetworkGuard hard-blocks outbound http/https/ws/wss at runtime.</code></pre>
-      <ul class="arch-points">
-        <li><strong>BgBgOneCore library</strong> — pure Swift, no Vision dependency, unit-testable.</li>
-        <li><strong>Main <code>bgbgone</code> target</strong> — Vision + Core Image integration.</li>
-        <li><strong><code>bgbgone-tests</code></strong> — pure-Swift test runner (no XCTest), same pattern as <a href="https://github.com/Arthur-Ficial/apfel" target="_blank" rel="noopener">apfel</a> and <a href="https://github.com/Arthur-Ficial/auge" target="_blank" rel="noopener">auge</a>.</li>
-      </ul>
     </div>
   </section>
 
   <!-- ============ PRIVACY ============ -->
-  <section class="privacy" id="privacy">
+  <section class="privacy" id="privacy" aria-labelledby="privacy-h">
     <div class="container">
       <div class="section-head">
-        <span class="kicker kicker-onyellow">10 · Privacy</span>
-        <h2>Verifiable: run bgbgone with Wi-Fi off.</h2>
+        <span class="kicker kicker-onyellow">06 · Privacy</span>
+        <h2 id="privacy-h">Run it with Wi-Fi off.</h2>
       </div>
       <div class="privacy-grid">
-        <div class="privacy-card">
-          <div class="privacy-num">01</div>
-          <h3>No network.</h3>
-          <p><code>NetworkGuard.swift</code> registers a <code>URLProtocol</code> that intercepts any <code>http</code>, <code>https</code>, <code>ws</code> or <code>wss</code> request inside the process and exits with code 3.</p>
-        </div>
-        <div class="privacy-card">
-          <div class="privacy-num">02</div>
-          <h3>No telemetry.</h3>
-          <p>No analytics. No crash reporting. No usage stats. The binary phones nobody.</p>
-        </div>
-        <div class="privacy-card">
-          <div class="privacy-num">03</div>
-          <h3>No accounts.</h3>
-          <p>No API keys. No subscriptions. No tier. You install once and own it forever.</p>
-        </div>
-        <div class="privacy-card">
-          <div class="privacy-num">04</div>
-          <h3>Your images stay yours.</h3>
-          <p>They never leave your Mac. Verifiable: turn Wi-Fi off and run <code>bgbgone in.jpg</code>.</p>
-        </div>
+        <div class="privacy-card"><div class="privacy-num">01</div><h3>No network.</h3></div>
+        <div class="privacy-card"><div class="privacy-num">02</div><h3>No telemetry.</h3></div>
+        <div class="privacy-card"><div class="privacy-num">03</div><h3>No accounts.</h3></div>
+        <div class="privacy-card"><div class="privacy-num">04</div><h3>Images stay yours.</h3></div>
       </div>
     </div>
   </section>
 
   <!-- ============ ECOSYSTEM ============ -->
-  <section class="ecosystem" id="ecosystem">
+  <section class="ecosystem" id="ecosystem" aria-labelledby="eco-h">
     <div class="container">
       <div class="section-head">
-        <span class="kicker">11 · Ecosystem</span>
-        <h2>Part of the <a href="https://github.com/Arthur-Ficial/apfel" target="_blank" rel="noopener">apfel</a> family of on-device CLI tools.</h2>
-        <p>Five Apple frameworks, five UNIX-style binaries, same design DNA. Pipe them.</p>
+        <span class="kicker">07 · Ecosystem</span>
+        <h2 id="eco-h">Part of the <a href="https://github.com/Arthur-Ficial/apfel" target="_blank" rel="noopener">apfel</a> family.</h2>
       </div>
       <div class="eco-grid">
         <a class="eco-card" href="https://github.com/Arthur-Ficial/apfel" target="_blank" rel="noopener">
@@ -729,14 +509,14 @@ HTTP server ───────────────→ same pipeline, mult
   </section>
 
   <!-- ============ INSTALL CTA ============ -->
-  <section class="cta">
+  <section class="cta" aria-labelledby="cta-h">
     <div class="container">
       <div class="cta-inner">
         <span class="kicker kicker-onink">Install</span>
-        <h2 class="cta-title">Background, <span class="cta-strike">be gone.</span></h2>
+        <h2 class="cta-title" id="cta-h">Background, <span class="cta-strike">be gone.</span></h2>
         <div class="cta-install">
           <code><span class="prompt">$</span><span class="cmd">brew install Arthur-Ficial/tap/bgbgone</span></code>
-          <button type="button" class="copy-btn copy-btn-onink" data-copy="brew install Arthur-Ficial/tap/bgbgone">
+          <button type="button" class="copy-btn copy-btn-onink" data-copy="brew install Arthur-Ficial/tap/bgbgone" aria-label="Copy install command">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <span class="copy-label">Copy</span>
           </button>
@@ -752,6 +532,8 @@ HTTP server ───────────────→ same pipeline, mult
     </div>
   </section>
 
+  </main>
+
   <!-- ============ FOOTER ============ -->
   <footer class="footer">
     <div class="container footer-inner">
@@ -763,9 +545,9 @@ HTTP server ───────────────→ same pipeline, mult
         <div class="footer-col">
           <div class="footer-col-title">CLI</div>
           <a href="#install">Install</a>
+          <a href="#gallery">Live demo</a>
           <a href="#examples">Examples</a>
           <a href="#flags">All flags</a>
-          <a href="#server">HTTP server</a>
         </div>
         <div class="footer-col">
           <div class="footer-col-title">Project</div>
@@ -784,10 +566,9 @@ HTTP server ───────────────→ same pipeline, mult
     </div>
     <div class="container footer-bot">
       <p>MIT · Made on Apple Silicon by <a href="https://github.com/Arthur-Ficial" target="_blank" rel="noopener">Arthur-Ficial</a></p>
-      <p>Every README image is real — produced by <code>scripts/make-readme-examples.sh</code> against a freshly-installed binary on every release.</p>
     </div>
   </footer>
 
-  <script src="app.js?v=0.2.2" defer></script>
+  <script src="app.js?v=0.2.8" defer></script>
 </body>
 </html>

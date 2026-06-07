@@ -1,6 +1,6 @@
 # bgbgone-web — image attributions
 
-Every image on https://bgbgone.franzai.com is in the **strict public domain**, verified live against the Wikimedia Commons API at build time. No Creative Commons. No upstream re-licensing risk.
+Every image on https://bgbgone.franzai.com is free of copyright restriction: either in the **strict public domain** (verified live against the Wikimedia Commons API at build time) or released under a **CC0 1.0 Public Domain Dedication** — the author's explicit, irrevocable waiver of all copyright. No attribution-bearing licences (no CC BY / CC BY-SA). No upstream re-licensing risk.
 
 The ten images below form the 187-year history timeline on the site. Eight are fetched fresh from their canonical Wikimedia Commons URLs by `scripts/fetch-sources.sh` and pinned to SHA-256 in `CHECKSUMS.sha256`. The other two are symlinked from the [bgbgone fixtures](https://github.com/Arthur-Ficial/bgbgone/blob/main/Tests/fixtures/LICENSES.md).
 
@@ -143,6 +143,33 @@ The "background, be gone." gallery shows bgbgone working across the categories u
 - **Canonical URL:** https://commons.wikimedia.org/wiki/File:Usfws-bald-eagle-ottawa-refuge.jpg
 - **Created:** Tony Everhardt, US Fish and Wildlife Service, Department of the Interior.
 - **PD grounds:** PD-USGov (work of a US federal employee in the course of official duties).
+
+---
+
+## README examples — modern CC0 subjects (red panda · corgi · singer)
+
+These three fixtures drive the Examples section and the live demo, mirroring the [bgbgone README](https://github.com/Arthur-Ficial/bgbgone#readme). All are **CC0 1.0 Public Domain Dedication** — the author has waived all copyright. Symlinked/copied from the [bgbgone fixtures](https://github.com/Arthur-Ficial/bgbgone/blob/main/Tests/fixtures/LICENSES.md), where each is listed 1:1.
+
+### Red panda
+
+- **File:** `red-panda.jpg`
+- **Canonical URL:** https://commons.wikimedia.org/wiki/File:Red_Panda_(24986761703).jpg
+- **Author:** Mathias Appel, 2016.
+- **Grounds:** CC0 1.0 Public Domain Dedication (author waiver of all copyright).
+
+### Corgi puppy
+
+- **File:** `corgi-puppy.jpg`
+- **Canonical URL:** https://commons.wikimedia.org/wiki/File:Fawn_and_white_Welsh_Corgi_puppy_standing_on_rear_legs_and_sticking_out_the_tongue.jpg
+- **Author:** Huoadg5888, 2016 (Pixabay 3389729).
+- **Grounds:** CC0 1.0 Public Domain Dedication (author waiver of all copyright).
+
+### Singer
+
+- **File:** `woman-singer.jpg`
+- **Canonical URL:** https://commons.wikimedia.org/wiki/File:Parastoo_Ahmadi.jpg
+- **Author:** Hosseinronaghi, 2024.
+- **Grounds:** CC0 1.0 Public Domain Dedication (author waiver of all copyright).
 
 ---
 
